@@ -1,0 +1,69 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{301BB29C-08B5-4D1E-A41A-F673E9A3631B}"
+	ProjectSection(SolutionItems) = preProject
+		libs\MessagePipe.dll = libs\MessagePipe.dll
+		libs\MessagePipe.Interprocess.dll = libs\MessagePipe.Interprocess.dll
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7BC35546-2B40-446A-837A-F88D77382869}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpcIpcUtility", "RpcIpcUtility\RpcIpcUtility.csproj", "{D0F8E806-1FEA-4F5D-8D54-4691ED9FC12E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{CC850DA5-428E-4153-A526-1D9C5A90D891}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "Tests\Client\Client.csproj", "{E3C8AE01-48CB-4630-BDC3-0771CA004D7A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "Tests\Server\Service.csproj", "{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedTypes", "Tests\Shared\SharedTypes.shproj", "{66470787-1ED0-463B-B17C-D3390109E2DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsService", "Tests\WindowsService\WindowsService.csproj", "{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0F8E806-1FEA-4F5D-8D54-4691ED9FC12E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0F8E806-1FEA-4F5D-8D54-4691ED9FC12E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0F8E806-1FEA-4F5D-8D54-4691ED9FC12E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0F8E806-1FEA-4F5D-8D54-4691ED9FC12E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3C8AE01-48CB-4630-BDC3-0771CA004D7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3C8AE01-48CB-4630-BDC3-0771CA004D7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3C8AE01-48CB-4630-BDC3-0771CA004D7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3C8AE01-48CB-4630-BDC3-0771CA004D7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E3C8AE01-48CB-4630-BDC3-0771CA004D7A} = {CC850DA5-428E-4153-A526-1D9C5A90D891}
+		{AF4ADA00-0ABF-4B1B-891B-A90759C6F73D} = {CC850DA5-428E-4153-A526-1D9C5A90D891}
+		{66470787-1ED0-463B-B17C-D3390109E2DE} = {CC850DA5-428E-4153-A526-1D9C5A90D891}
+		{CDAB36B5-8ECF-4482-AB93-DB1D94EDC906} = {CC850DA5-428E-4153-A526-1D9C5A90D891}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8D67D461-F056-4AFD-B358-57AE5211E920}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Tests\Shared\Service.Api.projitems*{66470787-1ed0-463b-b17c-d3390109e2de}*SharedItemsImports = 13
+		Tests\Shared\Shared.projitems*{af4ada00-0abf-4b1b-891b-a90759c6f73d}*SharedItemsImports = 5
+		Tests\Shared\Shared.projitems*{e3c8ae01-48cb-4630-bdc3-0771ca004d7a}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

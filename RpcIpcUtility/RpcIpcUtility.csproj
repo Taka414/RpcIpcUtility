@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>Takap.RpcIpc</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MessagePack" Version="2.5.187" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MessagePipe">
+      <HintPath>..\libs\MessagePipe.dll</HintPath>
+    </Reference>
+    <Reference Include="MessagePipe.Interprocess">
+      <HintPath>..\libs\MessagePipe.Interprocess.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
