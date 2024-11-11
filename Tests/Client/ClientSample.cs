@@ -9,6 +9,15 @@ namespace Takap.RpcIpc.Samples;
 /// </summary>
 public class ClientSample(string pipeName) : IpcRpcClient(pipeName)
 {
+    public ValueTask Notify1()
+    {
+        return PublishOne(200);
+    }
+    public ValueTask Notify2(int value)
+    {
+        return PublishOne(201, value);
+    }
+
     // 戻り値なし
     public async ValueTask Calc0(Sample s, CancellationToken ct = default)
     {

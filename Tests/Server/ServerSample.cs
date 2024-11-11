@@ -13,10 +13,22 @@ public class ServerSample(string pipeName, PipeSecurity pipeSecurity = null) : I
 {
     protected override void RegisterMethods()
     {
+        RegisterOne(200, Notify1);
+        RegisterOne<int>(201, Notify2);
+
         Register<Sample>(0, Calc0);
         Register<int>(1, Calc1);
         Register<int, int, int>(2, Calc2);
         Register<int, int>(100, Calc3);
+    }
+
+    public async ValueTask Notify1()
+    {
+        Console.WriteLine("Notify1");
+    }
+    public async ValueTask Notify2(int value)
+    {
+        Console.WriteLine("Notify2: " + value);
     }
 
     public async ValueTask Calc0(Sample s)
@@ -35,6 +47,5 @@ public class ServerSample(string pipeName, PipeSecurity pipeSecurity = null) : I
     {
         Console.WriteLine("Calc3");
         return a;
-
     }
 }

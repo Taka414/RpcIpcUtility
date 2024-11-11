@@ -25,6 +25,7 @@ public abstract class IpcRpcServer : IDisposable
     readonly ServiceCollection _sc;
     ServiceProvider _provider;
     private bool _disposed;
+    readonly CancellationTokenSource _cts = new();
 
     #endregion
 
@@ -90,6 +91,7 @@ public abstract class IpcRpcServer : IDisposable
         if (disposing)
         {
             _provider?.Dispose();
+            _cts?.Dispose();
         }
         _disposed = true;
 
@@ -124,6 +126,23 @@ public abstract class IpcRpcServer : IDisposable
     // Protected Methods
     // - - - - - - - - - - - - - - - - - - - -
     #region...
+
+    // IDistributedSubscriberを使用した結果を受け取らないメソッドの登録
+    protected void RegisterOne(int key, Func<ValueTask> method)
+    {
+        GetSub().SubscribeAsync(key, args =>
+        {
+            method();
+        });
+    }
+    protected void RegisterOne<T1>(int key, Func<T1, ValueTask> method)
+    {
+        GetSub().SubscribeAsync(key, async args =>
+        {
+            T1 a = Conv<T1>(args[0]);
+            await method(a);
+        });
+    }
 
     // 戻り値無しのメソッドの登録
     protected void Register(int key, Func<ValueTask> method)

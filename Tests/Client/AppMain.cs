@@ -2,6 +2,8 @@
 // (C) 2024 Takap.
 //
 
+using System.Diagnostics;
+
 namespace Takap.RpcIpc.Samples;
 
 internal class AppMain
@@ -12,20 +14,43 @@ internal class AppMain
 
         string pipeName = "pipe-name";
 
-        using ClientSample css = new ClientSample(pipeName);
+        using ClientSample client = new ClientSample(pipeName);
+
+        for (int i = 0; i < 10; i++)
+        {
+            //Stopwatch sw = Stopwatch.StartNew();
+            await client.Notify1(); // 高速で呼び出すと3回目以降メッセージが伝わらなくなる問題が発生中
+            //sw.Stop();
+            //Console.WriteLine("Notify1 exec time=" + sw.Elapsed.TotalMilliseconds);
+            // 少し停止すると通信できる
+            //Thread.Sleep(1);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            await client.Notify2(i); // 一度不通になると二度と通信できない
+        }
+
         Sample s = new Sample()
         {
             Code = 100,
             Message = "asdfasdf",
         };
-        await css.Calc0(s);
+
+        for (int i = 0; i < 10; i++)
+        {
+            Stopwatch sw = Stopwatch.StartNew();
+            await client.Calc0(s);
+            sw.Stop();
+            Console.WriteLine("Calc0 exec time=" + sw.Elapsed.TotalMilliseconds);
+            // 初回だけ動作速度が遅い
+        }
 
         // 戻り値なし
-        await css.Calc1(1);
-        await css.Calc2(1, 2, 3);
+        await client.Calc1(1);
+        await client.Calc2(1, 2, 3);
 
         // 戻り値あり
-        int ret = await css.Calc3(10);
+        int ret = await client.Calc3(10);
         Console.WriteLine("ret=" + ret);
 
         Console.WriteLine("[END] Press any key.");

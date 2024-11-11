@@ -18,10 +18,10 @@ public abstract class IpcRpcClient : IDisposable
     // - - - - - - - - - - - - - - - - - - - -
     #region...
 
-    string _pipeName;
     ServiceCollection _sc;
     ServiceProvider _provider;
-    private bool disposedValue;
+    bool _disposed;
+    readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
     #endregion
 
@@ -32,8 +32,6 @@ public abstract class IpcRpcClient : IDisposable
 
     public IpcRpcClient(string pipeName)
     {
-        _pipeName = pipeName;
-
         var sc = new ServiceCollection();
         IMessagePipeBuilder pb = sc.AddMessagePipe();
         pb.AddNamedPipeInterprocess(pipeName);
@@ -55,14 +53,15 @@ public abstract class IpcRpcClient : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!disposedValue)
+        if (!_disposed)
         {
             if (disposing)
             {
                 _provider?.Dispose();
                 _provider = null;
+                _cts.Dispose();
             }
-            disposedValue = true;
+            _disposed = true;
         }
     }
 
@@ -85,13 +84,13 @@ public abstract class IpcRpcClient : IDisposable
         return _provider;
     }
 
-    // 送るだけとき
+    // 単方向の送信
     IDistributedPublisher<int, byte[][]> GetPublisher()
     {
         return GetService().GetRequiredService<IDistributedPublisher<int, byte[][]>>();
     }
 
-    // 戻り値を受け取るとき
+    // 双方向通信で戻り値を受け取る
     IRemoteRequestHandler<RequestData, ResponseData> GetPublisher2Way<TResponse>()
     {
         return GetService().GetRequiredService<IRemoteRequestHandler<RequestData, ResponseData>>();
@@ -106,8 +105,9 @@ public abstract class IpcRpcClient : IDisposable
     {
         var pub = GetService().GetRequiredService<IRemoteRequestHandler<RequestData, ResponseData>>();
         Task<ResponseData> mainTask = pub.InvokeAsync(req, ct).AsTask();
-
-        Task delayTask = Task.Delay(timeOut, ct);
+        
+        using CancellationTokenSource cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+        Task delayTask = Task.Delay(timeOut, cts.Token);
         Task completedTask = await Task.WhenAny(mainTask, delayTask);
 
         if (completedTask == delayTask)
@@ -118,6 +118,7 @@ public abstract class IpcRpcClient : IDisposable
         }
         else
         {
+            cts.Cancel(); // ちゃんと終わらせる
             ResponseData ret = await mainTask;
             if (!ret.IsCompletedNormally)
             {
@@ -165,6 +166,15 @@ public abstract class IpcRpcClient : IDisposable
     // Protected Methods
     // - - - - - - - - - - - - - - - - - - - -
     #region...
+
+    protected ValueTask PublishOne(int key)
+    {
+        return GetPublisher().PublishAsync(key, null, _cts.Token);
+    }
+    protected ValueTask PublishOne<T1>(int key, T1 a)
+    {
+        return GetPublisher().PublishAsync(key, [Conv(a)], _cts.Token);
+    }
 
     // 戻り値なし
     protected async ValueTask Publish<T1>(int key, T1 a, double timeoutSecond, CancellationToken ct = default)

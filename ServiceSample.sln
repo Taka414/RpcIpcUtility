@@ -62,7 +62,6 @@ Global
 		SolutionGuid = {8D67D461-F056-4AFD-B358-57AE5211E920}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Tests\Shared\Service.Api.projitems*{66470787-1ed0-463b-b17c-d3390109e2de}*SharedItemsImports = 13
 		Tests\Shared\Shared.projitems*{af4ada00-0abf-4b1b-891b-a90759c6f73d}*SharedItemsImports = 5
 		Tests\Shared\Shared.projitems*{e3c8ae01-48cb-4630-bdc3-0771ca004d7a}*SharedItemsImports = 5
 	EndGlobalSection
